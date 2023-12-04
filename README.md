@@ -1,3 +1,3 @@
-# advent-of-code-2023
+# Advent of Code
 
-### Coming soon...
+A repository created to store solutions for the yearly Advent of Code
