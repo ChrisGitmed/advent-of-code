@@ -1,9 +1,10 @@
 /**
+ * Solution One
  *
  * @param {string[]} input
  * @returns {number}
-*/
-const getCalibrationValue = (input) => input.reduce((prev, current) => {
+ */
+const solutionOne = (input) => input.reduce((prev, current) => {
   const formattedRow = current.replace(/\D/g, '');
   const [firstDigit] = formattedRow;
   const lastDigit = formattedRow.at(-1);
@@ -12,11 +13,38 @@ const getCalibrationValue = (input) => input.reduce((prev, current) => {
   return prev + trueValue;
 }, 0);
 
-
-
 // Bonus one-liner
-// const getCalibrationValue = (a) => a.reduce((b, c) => b + parseInt(`${c.replace(/\D/g, '')[0]}${c.replace(/\D/g, '').at(-1)}`), 0);
+// const solutionOne = (a) => a.reduce((b, c) => b + parseInt(`${c.replace(/\D/g, '')[0]}${c.replace(/\D/g, '').at(-1)}`), 0);
 
 
 
-export { getCalibrationValue };
+/**
+ * Solution Two
+ *
+ * @param {string[]} input
+ * @returns {number}
+ */
+const solutionTwo = (input) => input.reduce((prev, current) => {
+  const { 0: firstValue, length, [length - 1]: lastValue } = Array
+    .from(current.matchAll(/(?=((\d)|one|two|three|four|five|six|seven|eight|nine))/gm))
+    .map((match) => match[1]);
+  const valueHash = {
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
+  };
+  return prev + parseInt(`${valueHash[firstValue] || firstValue}${valueHash[lastValue] || lastValue}`);
+}, 0);
+
+
+
+export {
+  solutionOne,
+  solutionTwo,
+};

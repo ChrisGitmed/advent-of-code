@@ -82,10 +82,95 @@ const solutionOne = (input) => input.reduce((accum, current, idx) => {
  * @param {string[]} input
  * @returns {number}
  */
-const solutionTwo = (input) => input.reduce((prev, current) => {
-}, 0);
+const solutionTwo = (input) => {
+  const grid = input.map((line) => line.split(''));
+  const gearNumbers = {};
+
+  for (let y = 0; y < grid.length; y++) {
+    let numString = '';
+    let checkNumber = false;
+    let gearLocation = null;
+
+    for (let x = 0; x < grid[y].length; x++) {
+      const currentSpot = grid[y][x];
+
+      // if current spot is a number and we aren't checking them yet, start checking
+      if (!isNaN(currentSpot) && !checkNumber) {
+        checkNumber = true;
+        numString = '';
+        gearLocation = null;
+      }
+
+      // if we find a non-number or at end of the row, stop checking and add to sum if needed
+      if ((x === grid[y].length - 1 || isNaN(currentSpot)) && checkNumber) {
+        if (gearLocation) gearNumbers[gearLocation].push(parseInt(numString + (!isNaN(currentSpot) ? currentSpot : '')));
+        checkNumber = false;
+      }
+
+      // if we are checking for numbers, add current spot to number and check for '*' around it
+      if (checkNumber) {
+        numString += currentSpot;
+
+        // check for star
+        for (let j = -1; j <= 1; j++) {
+          for (let i = -1; i <= 1; i++) {
+            if (i === 0 && j === 0) continue;
+            if (y + j < 0 || y + j >= grid.length || x + i < 0 || x + i >= grid[y].length) continue;
+
+            const char = grid[y + j][x + i];
+            if (char === '*') {
+              gearLocation = `${x + i},${y + j}`;
+              if (!gearNumbers[gearLocation]) gearNumbers[gearLocation] = [];
+            }
+          }
+        }
+      }
+    }
+  }
+
+  const results = Object.values(gearNumbers).reduce((accum, current) => {
+    const amountToIncrement = current.length === 2 ? (current[0] * current[1]) : 0;
+    return accum + amountToIncrement;
+  }, 0);
+  return results;
+};
 
 // Bonus
+// const solutionTwo = (a) => {
+//   const b = a.map((l) => l.split(''));
+//   const c = {};
+//   for (let d = 0; d < b.length; d++) {
+//     let e = '';
+//     let f = false;
+//     let g = null;
+//     for (let h = 0; h < b[d].length; h++) {
+//       const i = b[d][h];
+//       const j = isNaN(i);
+//       if (!j && !f) {
+//         f = true;
+//         e = '';
+//         g = null;
+//       }
+//       if ((h === b[d].length - 1 || j) && f) {
+//         if (g) c[g].push(parseInt(e + (!j ? i : '')));
+//         f = false;
+//       }
+//       if (f) {
+//         e += i;
+//         for (let k = -1; k <= 1; k++) {
+//           for (let l = -1; l <= 1; l++) {
+//             if ((!l && !k) || (d + k < 0 || d + k >= b.length || h + l < 0 || h + l >= b[d].length)) continue;
+//             if (b[d + k][h + l] === '*') {
+//               g = `${h + l},${d + k}`;
+//               if (!c[g]) c[g] = [];
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+//   return Object.values(c).reduce((m, n) => m + (n.length === 2 ? (n[0] * n[1]) : 0), 0);
+// };
 
 
 

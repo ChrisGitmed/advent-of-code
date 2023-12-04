@@ -34,18 +34,24 @@ test('Should return the sum of all engine parts', () => {
 
 
 /// SOLUTION 2
-// test('Should return the power of the minimum dice required', () => {
-//   const input = [
-//     '467..114..',
-//     '...*......',
-//     '..35..633.',
-//     '......#...',
-//     '617*......',
-//     '.....+.58.',
-//     '..592.....',
-//     '......755.',
-//     '...$.*....',
-//     '.664.598..',
-//   ];
-//   expect(solutionTwo(input)).toBe(467835);
-// });
+test('Should return the power of the minimum dice required', () => {
+  const input = [
+    '467..114..',
+    '...*......',
+    '..35..633.',
+    '......#...',
+    '617*......',
+    '.....+.58.',
+    '..592.....',
+    '......755.',
+    '...$.*....',
+    '.664.598..',
+  ];
+  expect(solutionTwo(input)).toBe(467835);
+});
+
+
+
+test('Should return the power of the minimum dice required', () => {
+  expect(solutionTwo(input)).toBe(81463996);
+});
